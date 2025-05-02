@@ -1,5 +1,6 @@
 package com.excelfore.test.BankTransaction.config;
 
+import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
@@ -40,17 +41,19 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
-            com.excelfore.test.BankTransaction.model.User user = userRepository.findByUsername(username);
-            if (user == null) throw new UsernameNotFoundException("User not found");
+            Optional<User> optionalUser = userRepository.findByUsername(username);
+
+            User user = optionalUser.orElseThrow(() ->
+                    new UsernameNotFoundException("User not found")
+            );
 
             return new org.springframework.security.core.userdetails.User(
                     user.getUsername(),
                     user.getPassword(),
-                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())) // this is key
+                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
             );
         };
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
