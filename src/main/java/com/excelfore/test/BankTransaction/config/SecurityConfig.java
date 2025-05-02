@@ -25,14 +25,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // ✅ new syntax: disables CSRF
+                .csrf(AbstractHttpConfigurer::disable) // disable CSRF for simplicity (safe for APIs)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/register").permitAll() // ✅ public endpoint
-                        .requestMatchers(HttpMethod.POST, "/api/v1/accounts/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/accounts/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/register").permitAll() // allow register
+                        .requestMatchers(HttpMethod.POST, "/api/v1/account/**").hasRole("ADMIN") // ONLY admin
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/account/**").hasRole("ADMIN") // ONLY admin
+                        .anyRequest().authenticated() // everything else needs login
                 )
-                .httpBasic(Customizer.withDefaults()); // or formLogin if you prefer
+                .httpBasic(Customizer.withDefaults()); // enables HTTP Basic login
 
         return http.build();
     }
@@ -46,10 +46,11 @@ public class SecurityConfig {
             return new org.springframework.security.core.userdetails.User(
                     user.getUsername(),
                     user.getPassword(),
-                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())) // this is key
             );
         };
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
