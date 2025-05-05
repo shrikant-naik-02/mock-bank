@@ -3,6 +3,7 @@ package com.excelfore.test.BankTransaction.controller;
 import com.excelfore.test.BankTransaction.exception.UserAlreadyHasAccountException;
 import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
+import com.excelfore.test.BankTransaction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +23,27 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-
-        if (existingUser.isPresent()) {
-            throw new UserAlreadyHasAccountException("Username already taken.");
-        }
+//        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+//
+//        if (existingUser.isPresent()) {
+//            throw new UserAlreadyHasAccountException("Username already taken.");
+//        }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRole() == null) {
             user.setRole("USER"); // Default role if not provided
         }
 
-        userRepository.save(user);
+//        userRepository.save(user);
+        userService.createUser(user);
+
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }
