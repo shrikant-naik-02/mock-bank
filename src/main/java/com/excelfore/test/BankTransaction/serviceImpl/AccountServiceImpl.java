@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
+
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -56,9 +59,19 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(id);
     }
 
+
+    private void authorizeUser(Account account) {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!account.getUser().getUsername().equals(currentUsername)) {
+            throw new AccessDeniedException("You are not authorized to perform this action.");
+        }
+    }
+
+
     @Override
     public Account deposit(long id, double amount) {
         Account account = getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
+        authorizeUser(account);
         account.setBalance(account.getBalance() + amount);
         return accountRepository.save(account);
     }
@@ -66,6 +79,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account withdraw(long id, double amount) {
         Account account = getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
+        authorizeUser(account);
         if (account.getBalance() < amount) {
             throw new RuntimeException("Insufficient funds");
         }
