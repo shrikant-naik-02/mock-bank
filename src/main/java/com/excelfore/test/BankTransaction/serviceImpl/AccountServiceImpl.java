@@ -1,5 +1,7 @@
 package com.excelfore.test.BankTransaction.serviceImpl;
 
+import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
+import com.excelfore.test.BankTransaction.exception.InsufficientFundsException;
 import com.excelfore.test.BankTransaction.exception.UserAlreadyHasAccountException;
 import com.excelfore.test.BankTransaction.exception.UserNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
@@ -70,19 +72,25 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account deposit(long id, double amount) {
-        Account account = getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
+        Account account = getSingleAccount(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         authorizeUser(account);
         account.setBalance(account.getBalance() + amount);
         return accountRepository.save(account);
     }
 
+
     @Override
     public Account withdraw(long id, double amount) {
-        Account account = getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
+        Account account = getSingleAccount(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
         authorizeUser(account);
+
         if (account.getBalance() < amount) {
-            throw new RuntimeException("Insufficient funds");
+            throw new InsufficientFundsException("Insufficient funds");
         }
+
         account.setBalance(account.getBalance() - amount);
         return accountRepository.save(account);
     }
