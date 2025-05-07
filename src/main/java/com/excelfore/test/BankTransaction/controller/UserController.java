@@ -20,28 +20,10 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-//        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-//
-//        if (existingUser.isPresent()) {
-//            throw new UserAlreadyHasAccountException("Username already taken.");
-//        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRole() == null) {
-            user.setRole("USER"); // Default role if not provided
-        }
-
-//        userRepository.save(user);
         userService.createUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
