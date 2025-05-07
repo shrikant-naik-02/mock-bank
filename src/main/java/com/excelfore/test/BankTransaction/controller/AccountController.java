@@ -4,6 +4,7 @@ import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
 import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,12 @@ public class AccountController {
     public Account withdraw(@PathVariable Long id, @RequestBody Map<String, Double> request) {
         Double amount = request.get("amount");
         return accSer.withdraw(id, amount);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+        accSer.deleteAccount(id);
+        return ResponseEntity.ok("Account deleted successfully");
     }
 
     @GetMapping

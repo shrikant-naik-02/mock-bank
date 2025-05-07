@@ -10,8 +10,10 @@ import com.excelfore.test.BankTransaction.repository.AccountRepository;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
 import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,4 +105,39 @@ public class AccountServiceImpl implements AccountService {
         account.setBalance(account.getBalance() - amount);
         return accountRepository.save(account);
     }
+
+    @Override
+    public void deleteAccount(Long id) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + id));
+        accountRepository.delete(account);
+    }
+
+
+//    It will Work well if SecurityConfig get disable
+//    @Override
+//    public void deleteAccount(Long id) {
+//        // from basic auth we are fetching username here
+//        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+//        System.out.println("DEl-Acc-1"+currentUsername);
+//
+////        this have vaule like [ROLE_USER]
+//        Collection<? extends GrantedAuthority> authorities =
+//                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+//        System.out.println("DEl-Acc-2"+authorities);
+//
+//        // checking the value is ROLE_ADMIN or not
+//        boolean isAdmin = authorities.stream()
+//                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+//        System.out.println("DEl-Acc-3"+isAdmin);
+//        if (!isAdmin) {
+//            throw new AccessDeniedException("Only admins are allowed to delete accounts.");
+//        }
+//        System.out.println("DEl-Acc-4");
+//        Account account = accountRepository.findById(id)
+//                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + id));
+//        System.out.println("DEl-Acc-5"+account);
+//        accountRepository.delete(account);
+//    }
+
 }
