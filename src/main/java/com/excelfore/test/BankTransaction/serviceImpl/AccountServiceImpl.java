@@ -27,20 +27,15 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     public UserRepository userRepository;
 
-//    @Override
-//    public Account createAccount(Account account) {
-//        return accrepo.save(account);
-//    }
-
     @Override
     public Account createAccount(Account account) {
         String username = account.getAccountHolderName();
 
-        // 1. Find user
+        // 1. Find username Value With accountHoldername
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("No user found with username: " + username));
 
-        // 2. Check if the user already has an account
+        // 2. Check if the user already has an account.
         if (accountRepository.findByUser(user).isPresent()) {
             throw new UserAlreadyHasAccountException("User already has an account");
         }

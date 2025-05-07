@@ -2,9 +2,8 @@ package com.excelfore.test.BankTransaction.controller;
 
 import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
-import com.excelfore.test.BankTransaction.serviceImpl.AccountServiceImpl;
+import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +15,16 @@ import java.util.Optional;
 public class AccountController {
 
     @Autowired
-    private AccountServiceImpl accSer;
+    private AccountService accSer;
 
     @PostMapping
     public Account createAccount(@RequestBody Account account){
-        System.out.println("New Account Get Created Successfully");
+        System.out.println("AC-1");
         return accSer.createAccount(account);
     }
 
     @GetMapping("/single-account/{id}")
     public Optional<Account> getSingleAccount(@PathVariable Long id){
-//        return accSer.getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
-//        return Optional.ofNullable(accSer.getSingleAccount(id).orElseThrow(() -> new RuntimeException("Account not found")));
         return Optional.ofNullable(
                 accSer.getSingleAccount(id)
                         .orElseThrow(() -> new AccountNotFoundException("Account "+id+" not found"))

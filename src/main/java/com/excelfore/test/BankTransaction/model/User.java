@@ -18,9 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String name; // Real Name Of Person
     @Column(nullable = false)
-    private String username;
+    private String username; // Unique Name Of Person Which Is Going To Match With AccountHolderName In Account Model
     @Column(nullable = false)
     private String password;
     private String role; // "USER" or "ADMIN"
