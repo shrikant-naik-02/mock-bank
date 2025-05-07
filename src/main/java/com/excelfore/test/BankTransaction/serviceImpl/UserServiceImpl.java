@@ -1,5 +1,6 @@
 package com.excelfore.test.BankTransaction.serviceImpl;
 
+import com.excelfore.test.BankTransaction.enums.Role;
 import com.excelfore.test.BankTransaction.exception.UserAlreadyHasAccountException;
 import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRole() == null) {
-            user.setRole("USER"); // If default role if not provided
+            user.setRole(Role.valueOf("USER")); // If default role if not provided
         }
 
         return userRepository.save(user);
