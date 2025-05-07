@@ -2,7 +2,6 @@ package com.excelfore.test.BankTransaction.controller;
 
 import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

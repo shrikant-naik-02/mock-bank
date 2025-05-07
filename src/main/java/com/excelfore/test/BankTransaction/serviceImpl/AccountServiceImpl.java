@@ -10,10 +10,8 @@ import com.excelfore.test.BankTransaction.repository.AccountRepository;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
 import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,18 +59,6 @@ public class AccountServiceImpl implements AccountService {
 
     private void authorizeUser(Account account) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        String currentUsername2 = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        Object currentUsername3 = SecurityContextHolder.getContext().getAuthentication().getCredentials();
-        String currentUsername4 = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getClass());
-        Object currentUsername5 = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        Object currentUsername6 = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-//        System.out.println(currentUsername);
-//        System.out.println(currentUsername2);
-//        System.out.println(currentUsername3);
-//        System.out.println(currentUsername4);
-//        System.out.println(currentUsername5);
-//        System.out.println(currentUsername6);
 
 //        currentUserName variables value represent the that value which is coming from basic auth login and going to check that value with account username which is unique
         if (!account.getUser().getUsername().equals(currentUsername)) {
@@ -89,7 +75,6 @@ public class AccountServiceImpl implements AccountService {
         account.setBalance(account.getBalance() + amount);
         return accountRepository.save(account);
     }
-
 
     @Override
     public Account withdraw(long id, double amount) {

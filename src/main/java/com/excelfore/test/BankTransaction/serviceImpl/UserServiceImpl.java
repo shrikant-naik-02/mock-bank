@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-//        Username or accountHoldername unique taking decision on the basis of that only
+//        Username - unique taking decision on the basis of that only
         Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
 
         if (existingUser.isPresent()) {

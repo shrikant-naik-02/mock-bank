@@ -6,7 +6,6 @@ import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +19,6 @@ public class AccountController {
 
     @PostMapping
     public Account createAccount(@RequestBody Account account){
-        System.out.println("AC-1");
         return accSer.createAccount(account);
     }
 
@@ -55,7 +53,7 @@ public class AccountController {
         return ResponseEntity.ok("Account deleted successfully");
     }
 
-    @GetMapping
+    @GetMapping("/test")
     public String myTest(){
         return "its working string";
     }
