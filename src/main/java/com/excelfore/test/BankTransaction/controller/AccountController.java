@@ -20,6 +20,9 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+        if (account == null) {
+            return ResponseEntity.badRequest().build(); // no body, just 400
+        }
         Account createdAccount = accSer.createAccount(account);  // Assuming this method creates the account
         return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);  // Return 201 Created with the created account object
     }
