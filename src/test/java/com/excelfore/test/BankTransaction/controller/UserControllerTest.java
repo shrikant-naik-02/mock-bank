@@ -43,7 +43,7 @@ class UserControllerTest {
 
         ResponseEntity<String> response = userController.registerUser(u1);
 
-        assertEquals(201, response.getStatusCode().value());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatusCode().value());
         assertEquals("User registered successfully", response.getBody());
     }
 
@@ -60,7 +60,7 @@ class UserControllerTest {
     }
 
     @Test
-    void registerUser_shouldReturnBadRequestForNullBody() {
+    void registerUser_shouldReturnBadRequest_WhenBodyIsNull() {
         // Simulating a null user
         u1 = null;
 
@@ -68,7 +68,7 @@ class UserControllerTest {
         ResponseEntity<String> response = userController.registerUser(u1);
 
         // Assert that the response status is 400 Bad Request
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode().value());
 
         // Assert that the response body contains the appropriate error message
         assertEquals("Request body cannot be null", response.getBody());
