@@ -4,6 +4,7 @@ import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
 import com.excelfore.test.BankTransaction.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,8 +19,9 @@ public class AccountController {
     private AccountService accSer;
 
     @PostMapping
-    public Account createAccount(@RequestBody Account account){
-        return accSer.createAccount(account);
+    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+        Account createdAccount = accSer.createAccount(account);  // Assuming this method creates the account
+        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);  // Return 201 Created with the created account object
     }
 
     @GetMapping("/single-account/{id}")
