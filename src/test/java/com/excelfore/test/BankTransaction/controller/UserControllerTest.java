@@ -58,6 +58,22 @@ class UserControllerTest {
 
         assertEquals("Username already taken.", exception.getMessage());
     }
+
+    @Test
+    void registerUser_shouldReturnBadRequestForNullBody() {
+        // Simulating a null user
+        u1 = null;
+
+        // Perform the POST request with null body
+        ResponseEntity<String> response = userController.registerUser(u1);
+
+        // Assert that the response status is 400 Bad Request
+        assertEquals(400, response.getStatusCodeValue());
+
+        // Assert that the response body contains the appropriate error message
+        assertEquals("Request body cannot be null", response.getBody());
+    }
+
 }
 
 
