@@ -17,6 +17,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+//    This is for mockito
+    public UserController(UserService service) {
+        this.userService = service;
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser( @RequestBody User user) {
         userService.createUser(user);
