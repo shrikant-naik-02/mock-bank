@@ -18,9 +18,9 @@ public class UserController {
     private UserService userService;
 
 //    This is for mockito
-    public UserController(UserService service) {
-        this.userService = service;
-    }
+//    public UserController(UserService service) {
+//        this.userService = service;
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser( @RequestBody User user) {
