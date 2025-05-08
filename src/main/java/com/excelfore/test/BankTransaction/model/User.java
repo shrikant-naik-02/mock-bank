@@ -2,6 +2,9 @@ package com.excelfore.test.BankTransaction.model;
 
 import com.excelfore.test.BankTransaction.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,8 +24,11 @@ public class User {
     @Column(nullable = false)
     private String name; // Real Name Of Person
     @Column(nullable = false, unique = true)
+    @NotBlank
+    @NotEmpty
     private String username; // Unique Name Of Person Which Is Going To Match With AccountHolderName In Account Model
     @Column(nullable = false)
+    @NotEmpty
     private String password;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
