@@ -17,36 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//class UserControllerTest {
-//
-//    UserController uc = null;
-//    User u1 = null;
-//    UserService service = mock(UserService.class);
-//
-//    @BeforeEach
-//    void setUp() {
-//        uc = new UserController(service);
-//        u1 = new User();
-//        u1.setRole(Role.valueOf("USER"));
-//        u1.setPassword("123456");
-//        u1.setName("unit1");
-//        u1.setUsername("unit1");
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//    }
-//
-//    @Test
-//    void registerUser() {
-//    when(service.createUser(u1)).thenReturn(u1);
-//
-//        assertEquals(HttpStatus.CREATED, uc.registerUser(u1).getStatusCode());
-//        assertEquals("User registered successfully", uc.registerUser(u1).getBody());
-//
-//    }
-//}
-
 class UserControllerTest {
 
     @Mock
@@ -89,3 +59,39 @@ class UserControllerTest {
         assertEquals("Username already taken.", exception.getMessage());
     }
 }
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//class UserControllerTest {
+//
+//    UserController uc = null;
+//    User u1 = null;
+//    UserService service = mock(UserService.class);
+//
+//    @BeforeEach
+//    void setUp() {
+//        uc = new UserController(service);
+//        u1 = new User();
+//        u1.setRole(Role.valueOf("USER"));
+//        u1.setPassword("123456");
+//        u1.setName("unit1");
+//        u1.setUsername("unit1");
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//    }
+//
+//    @Test
+//    void registerUser() {
+//    when(service.createUser(u1)).thenReturn(u1);
+//
+//        assertEquals(HttpStatus.CREATED, uc.registerUser(u1).getStatusCode());
+//        assertEquals("User registered successfully", uc.registerUser(u1).getBody());
+//
+//    }
+//}
