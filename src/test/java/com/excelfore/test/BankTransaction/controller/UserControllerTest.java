@@ -43,7 +43,7 @@ class UserControllerTest {
 
         ResponseEntity<String> response = userController.registerUser(u1);
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(201, response.getStatusCode().value());
         assertEquals("User registered successfully", response.getBody());
     }
 
