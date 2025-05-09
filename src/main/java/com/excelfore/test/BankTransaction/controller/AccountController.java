@@ -9,6 +9,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -250,6 +255,29 @@ public class AccountController {
     }
 
     @PutMapping("/{id}/deposit")
+    @Operation(
+            summary = "Deposit money into account",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful Deposit",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Account.class),
+                                    examples = @ExampleObject(value = "{\"id\": 1, \"accountHolderName\": \"user9\", \"balance\": 1200.0, \"createdAt\": \"2025-05-07T10:43:53.777177\", \"updatedAt\": \"2025-05-07T10:43:53.777262\", \"user\": {\"id\": 10, \"name\": \"user9\", \"username\": \"user9\", \"password\": \"hashedpassword\", \"role\": \"USER\"}}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid Amount",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"Invalid amount for deposit.\"}")
+                            )
+                    )
+            }
+    )
+//    @PutMapping("/{id}/deposit")
     public Account deposit(@PathVariable Long id, @RequestBody Map<String, Double> request) throws JsonProcessingException {
         Double amount = request.get("amount");
 
