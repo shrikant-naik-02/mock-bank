@@ -57,9 +57,4 @@ public class AccountController {
         accSer.deleteAccount(id);
         return ResponseEntity.ok("Account deleted successfully");
     }
-
-    @GetMapping("/test")
-    public String myTest(){
-        return "its working string";
-    }
 }
