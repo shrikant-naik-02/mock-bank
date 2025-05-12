@@ -108,6 +108,35 @@ public class AccountController {
 //    }
 
     @PostMapping
+    @Operation(
+            summary = "Create Your Account And Save Your Money",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Successful Deposit",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Account.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Invalid Amount",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"No user found with username: Something\"}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Invalid Amount",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"User already has an account.\"}")
+                            )
+                    )
+            }
+    )
     public ResponseEntity<Account> createAccount(@RequestBody Account account) throws JsonProcessingException, JsonProcessingException {
         log.info("Received request to / with params: {}", account);
 
