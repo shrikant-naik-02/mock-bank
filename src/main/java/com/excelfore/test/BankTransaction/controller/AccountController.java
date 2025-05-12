@@ -260,6 +260,16 @@ public class AccountController {
     @PutMapping("/{id}/deposit")
     @Operation(
             summary = "Deposit money into account",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    name = "DepositRequestExample",
+                                    value = "{\"amount\": 5000000}"
+                            )
+                    )
+            ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
