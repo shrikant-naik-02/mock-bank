@@ -264,6 +264,10 @@ public class AccountController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
+                            schema = @Schema(
+                                    type = "object",
+                                    example = "{\"amount\": 5000000}"
+                            ),
                             examples = @ExampleObject(
                                     name = "DepositRequestExample",
                                     value = "{\"amount\": 5000000}"
