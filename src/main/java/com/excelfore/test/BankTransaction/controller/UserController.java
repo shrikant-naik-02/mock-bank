@@ -1,6 +1,7 @@
 package com.excelfore.test.BankTransaction.controller;
 
 import com.excelfore.test.BankTransaction.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SecurityRequirement(name = "basicAuth")
 @RestController
 @RequestMapping("/api/v1/auth")
 @Validated

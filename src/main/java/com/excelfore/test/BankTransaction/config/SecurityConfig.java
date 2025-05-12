@@ -2,6 +2,8 @@ package com.excelfore.test.BankTransaction.config;
 
 import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.repository.UserRepository;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Configuration
+@SecurityScheme(
+        name = "basicAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "basic"
+)
 @EnableWebSecurity
 public class SecurityConfig {
 
