@@ -1,5 +1,6 @@
 package com.excelfore.test.BankTransaction.controller;
 
+import com.excelfore.test.BankTransaction.dto.AmountRequest;
 import com.excelfore.test.BankTransaction.enums.Role;
 import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
@@ -259,29 +260,25 @@ public class AccountController {
 
     @PutMapping("/{id}/deposit")
     @Operation(
-            summary = "Deposit money into account",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    type = "object",
-                                    example = "{\"amount\": 5000000}"
-                            ),
-                            examples = @ExampleObject(
-                                    name = "DepositRequestExample",
-                                    value = "{\"amount\": 5000000}"
-                            )
-                    )
-            ),
+            summary = "Deposit Money Into Account",
+//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+//                    required = true,
+//                    content = @Content(
+//                            mediaType = "application/json",
+//                            schema = @Schema(implementation = AmountRequest.class),
+//                            examples = @ExampleObject(
+//                                    name = "DepositRequestExample",
+//                                    value = "{\"amount\": 50}"
+//                            )
+//                    )
+//            ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successful Deposit",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Account.class),
-                                    examples = @ExampleObject(value = "{\"id\": 1, \"accountHolderName\": \"user9\", \"balance\": 1200.0, \"createdAt\": \"2025-05-07T10:43:53.777177\", \"updatedAt\": \"2025-05-07T10:43:53.777262\", \"user\": {\"id\": 10, \"name\": \"user9\", \"username\": \"user9\", \"password\": \"hashedpassword\", \"role\": \"USER\"}}")
+                                    schema = @Schema(implementation = Account.class)
                             )
                     ),
                     @ApiResponse(
@@ -294,9 +291,8 @@ public class AccountController {
                     )
             }
     )
-//    @PutMapping("/{id}/deposit")
-    public Account deposit(@PathVariable Long id, @RequestBody Map<String, Double> request) throws JsonProcessingException {
-        Double amount = request.get("amount");
+    public Account deposit(@PathVariable Long id, @RequestBody AmountRequest request) throws JsonProcessingException {
+        Double amount = request.getAmount();
 
         // Mock Account update (deposit)
         String json = """
@@ -327,8 +323,40 @@ public class AccountController {
     }
 
     @PutMapping("/{id}/withdraw")
-    public Account withdraw(@PathVariable Long id, @RequestBody Map<String, Double> request) throws JsonProcessingException {
-        Double amount = request.get("amount");
+    @Operation(
+            summary = "Withdraw Money From Account",
+//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+//                    required = true,
+//                    content = @Content(
+//                            mediaType = "application/json",
+//                            schema = @Schema(implementation = AmountRequest.class),
+//                            examples = @ExampleObject(
+//                                    name="WithdrawrequestExample",
+//                                    value = "{\"amount\":50}"
+//                            )
+//                    )
+//            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful Withdraw",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Account.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid Amount",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"Invalid amount for withdraw.\"}")
+                            )
+                    )
+            }
+    )
+    public Account withdraw(@PathVariable Long id, @RequestBody AmountRequest request) throws JsonProcessingException {
+        Double amount = request.getAmount();
 
         // Mock Account update (withdraw)
         String json = """
