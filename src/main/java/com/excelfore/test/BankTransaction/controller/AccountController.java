@@ -175,6 +175,27 @@ public class AccountController {
 //    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     @GetMapping("/single-account/{id}")
+    @Operation(
+            summary = "Get Your Account Details Based On Id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully Fetched The Account",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Account.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Invalid Account Id",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"Account 50 not found\"}")
+                            )
+                    )
+            }
+    )
     public Optional<Account> getSingleAccount(@PathVariable Long id) throws JsonProcessingException {
         log.info("Received request to / with id: {}", id);
 
@@ -304,18 +325,26 @@ public class AccountController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful Deposit",
+                            description = "Successfully Deposited",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Account.class)
                             )
                     ),
                     @ApiResponse(
-                            responseCode = "400",
-                            description = "Invalid Amount",
+                            responseCode = "404",
+                            description = "Account Not Found",
                             content = @Content(
                                     mediaType = "application/json",
-                                    examples = @ExampleObject(value = "{\"message\": \"Invalid amount for deposit.\"}")
+                                    examples = @ExampleObject(value = "{\"message\": \"Account Not Found May Be Not Yet Created.\"}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
                             )
                     )
             }
@@ -376,10 +405,18 @@ public class AccountController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid Amount",
+                            description = "Insufficient funds",
                             content = @Content(
                                     mediaType = "application/json",
-                                    examples = @ExampleObject(value = "{\"message\": \"Invalid amount for withdraw.\"}")
+                                    examples = @ExampleObject(value = "{\"message\": \"Insufficient funds to withdraw.\"}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
                             )
                     )
             }
@@ -415,7 +452,36 @@ public class AccountController {
         return mapper.readValue(json, Account.class);
     }
 
-
+    @Operation(
+            summary = "Delete The UnUsed Or Closed Account From Your Bank",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Account deleted successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(type = "string"),
+                                    examples = @ExampleObject(value = "\"Account deleted successfully\"")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Account Not Found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"Account Not Found May Be Not Yet Created.\"}")
+                            )
+                    )
+            }
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         log.info("Received request to /{id}} with value: {}", id);

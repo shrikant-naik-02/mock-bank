@@ -1,6 +1,12 @@
 package com.excelfore.test.BankTransaction.controller;
 
+import com.excelfore.test.BankTransaction.model.Account;
 import com.excelfore.test.BankTransaction.model.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +39,36 @@ public class UserController {
 //    }
 
     @PostMapping("/register")
+    @Operation(
+            summary = "Create Your Account And Save Your Money",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Successful Registered",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(type = "string"),
+                                    examples = @ExampleObject(value = "\"Account Created successfully\"")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Field Is Empty",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"must not be empty\"}")
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Invalid Username",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "{\"message\": \"Username already taken.\"}")
+                            )
+                    )
+            }
+    )
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         log.info("Received request to /register with params: {}", user);
 
