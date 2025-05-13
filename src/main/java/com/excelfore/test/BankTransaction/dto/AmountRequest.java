@@ -11,7 +11,6 @@ import lombok.Setter;
 public class AmountRequest {
 
     @Schema(description = "Amount to deposit or withdraw", example = "5000")
-//    @NonNull
     @NotEmpty
     private Double amount;
 }

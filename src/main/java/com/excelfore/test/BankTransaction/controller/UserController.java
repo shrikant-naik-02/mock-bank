@@ -27,18 +27,6 @@ public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@RequestBody User user) {
-//        log.info("Received request to /register with params: {}", user);
-//
-//        String customJson = """
-//            {"message": "User %s registered successfully"}
-//            """.formatted(user.getUsername()); // Change to appropriate field
-//
-//        log.info(customJson);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(customJson);
-//    }
-
     @PostMapping("/register")
     @Operation(
             summary = "Create Your Account And Save Your Money",
@@ -49,7 +37,6 @@ public class UserController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(type = "string",description = "Account Created Successfully."),
-//                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "\"Account Created successfully\"")
                             )
                     ),
@@ -59,7 +46,6 @@ public class UserController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(type = "string",description = "must not be empty."),
-//                                    examples = @ExampleObject(value = "{\"message\": \"must not be empty\"}")
                                     examples = @ExampleObject(value = "\"must not be empty\"")
                             )
                     ),
@@ -69,7 +55,6 @@ public class UserController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(type = "string",description = "Username Already Taken."),
-//                                    examples = @ExampleObject(value = "{\"message\": \"Username already taken.\"}")
                                     examples = @ExampleObject(value = "\"Username already taken.\"")
                             )
                     )
@@ -78,7 +63,6 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         log.info("Received request to /register with params: {}", user);
 
-//        String responseMessage = "User " + user.getUsername() + " registered successfully";
         String responseMessage = "User registered successfully";
 
         log.info(responseMessage);

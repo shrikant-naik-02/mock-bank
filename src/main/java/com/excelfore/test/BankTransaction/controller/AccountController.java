@@ -2,10 +2,7 @@ package com.excelfore.test.BankTransaction.controller;
 
 import com.excelfore.test.BankTransaction.dto.AmountRequest;
 import com.excelfore.test.BankTransaction.dto.MessageFieldResponse;
-import com.excelfore.test.BankTransaction.enums.Role;
-import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
-import com.excelfore.test.BankTransaction.model.User;
 import com.excelfore.test.BankTransaction.service.AccountService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,75 +33,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accSer;
-
-//    @PostMapping
-//    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-//        log.info("Received request to / with params: {}", account);
-//
-//        // Extracting fields from Account and its User
-//        String accountHolderName = account.getAccountHolderName();
-//        double balance = account.getBalance();
-//        String username = account.getAccountHolderName(); // assuming getUser() returns a User object
-//
-//        // Dynamically creating the JSON string
-//        String customJson = """
-//            {
-//                {
-//                        "id": 16,
-//                        "accountHolderName":  "%s",
-//                        "balance":   %.2f,
-//                        "createdAt": "2025-05-09T14:48:46.339362",
-//                        "updatedAt": "2025-05-09T14:48:46.339522",
-//                        "user": {
-//                            "id": 34,
-//                            "name": "user25",
-//                            "username": "%s",
-//                            "password": "$2a$10$WszV.c9kENam3dGxO1s5N.Rr5tpQoIA7E3rDRj3h8HT5sg7QfQuIq",
-//                            "role": "USER",
-//                            "createdAt": "2025-05-07T12:52:07.297741",
-//                            "updatedAt": "2025-05-07T12:52:07.29783"
-//                        }
-//                    }
-//            }
-//            """.formatted(accountHolderName, balance, username);
-//
-//        log.info("Custom JSON:\n{}", customJson);
-//
-//        Account createdAccount = accSer.createAccount(account);
-//        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
-//    }
-
-
-
-//    @PostMapping
-//    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-//        log.info("Received request to / with params: {}", account);
-//
-//        // Mock values
-//        Account mockAccount = new Account();
-//        mockAccount.setId(16L); // mock ID
-//        mockAccount.setAccountHolderName(account.getAccountHolderName());
-//        mockAccount.setBalance(account.getBalance());
-//        mockAccount.setCreatedAt(LocalDateTime.now());
-//        mockAccount.setUpdatedAt(LocalDateTime.now());
-//
-//        // Mock user (assuming account.getUser() is not null)
-//        User user = account.getUser();
-//        if (user == null) user = new User(); // fallback in case null
-//        user.setId(34L);
-//        user.setName(account.getAccountHolderName());
-//        user.setUsername(account.getAccountHolderName());
-//        user.setPassword("mocked-password-hash");
-//        user.setRole(Role.valueOf("USER"));
-//        user.setCreatedAt(LocalDateTime.now());
-//        user.setUpdatedAt(LocalDateTime.now());
-//
-//        mockAccount.setUser(user);
-//
-//        log.info("Mocked Account Response: {}", mockAccount);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(mockAccount);
-//    }
 
     @PostMapping
     @Operation(
@@ -318,17 +244,6 @@ public class AccountController {
     @PutMapping("/{id}/deposit")
     @Operation(
             summary = "Deposit Money Into Account",
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-//                    required = true,
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            schema = @Schema(implementation = AmountRequest.class),
-//                            examples = @ExampleObject(
-//                                    name = "DepositRequestExample",
-//                                    value = "{\"amount\": 50}"
-//                            )
-//                    )
-//            ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -392,17 +307,6 @@ public class AccountController {
     @PutMapping("/{id}/withdraw")
     @Operation(
             summary = "Withdraw Money From Account",
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-//                    required = true,
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            schema = @Schema(implementation = AmountRequest.class),
-//                            examples = @ExampleObject(
-//                                    name="WithdrawrequestExample",
-//                                    value = "{\"amount\":50}"
-//                            )
-//                    )
-//            ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -434,8 +338,6 @@ public class AccountController {
     )
     public Account withdraw(@PathVariable Long id, @RequestBody AmountRequest request) throws JsonProcessingException {
         Double amount = request.getAmount();
-
-        // Mock Account update (withdraw)
         String json = """
             {
                 "id": %s,
