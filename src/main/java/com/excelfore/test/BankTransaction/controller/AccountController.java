@@ -1,6 +1,7 @@
 package com.excelfore.test.BankTransaction.controller;
 
 import com.excelfore.test.BankTransaction.dto.AmountRequest;
+import com.excelfore.test.BankTransaction.dto.MessageFieldResponse;
 import com.excelfore.test.BankTransaction.enums.Role;
 import com.excelfore.test.BankTransaction.exception.AccountNotFoundException;
 import com.excelfore.test.BankTransaction.model.Account;
@@ -113,7 +114,7 @@ public class AccountController {
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Successful Deposit",
+                            description = "Successful Account Created",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Account.class)
@@ -124,7 +125,11 @@ public class AccountController {
                             description = "Invalid Amount",
                             content = @Content(
                                     mediaType = "application/json",
-                                    examples = @ExampleObject(value = "{\"message\": \"No user found with username: Something\"}")
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
+                                    examples = @ExampleObject(
+                                            name = "UserNotFoundExample",
+                                            value = "{\"message\": \"No user found with username: Something\"}"
+                                    )
                             )
                     ),
                     @ApiResponse(
@@ -132,6 +137,7 @@ public class AccountController {
                             description = "Invalid Amount",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"User already has an account.\"}")
                             )
                     )
@@ -191,6 +197,7 @@ public class AccountController {
                             description = "Invalid Account Id",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"Account 50 not found\"}")
                             )
                     )
@@ -336,6 +343,7 @@ public class AccountController {
                             description = "Account Not Found",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"Account Not Found May Be Not Yet Created.\"}")
                             )
                     ),
@@ -344,6 +352,7 @@ public class AccountController {
                             description = "Forbidden",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
                             )
                     )
@@ -408,6 +417,7 @@ public class AccountController {
                             description = "Insufficient funds",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"Insufficient funds to withdraw.\"}")
                             )
                     ),
@@ -416,6 +426,7 @@ public class AccountController {
                             description = "Forbidden",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
                             )
                     )
@@ -460,7 +471,7 @@ public class AccountController {
                             description = "Account deleted successfully",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(type = "string"),
+                                    schema = @Schema(type = "string", description = "Account deleted successfully"),
                                     examples = @ExampleObject(value = "\"Account deleted successfully\"")
                             )
                     ),
@@ -469,6 +480,7 @@ public class AccountController {
                             description = "Forbidden",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"You are not authorized to perform this action.\"}")
                             )
                     ),
@@ -477,6 +489,7 @@ public class AccountController {
                             description = "Account Not Found",
                             content = @Content(
                                     mediaType = "application/json",
+                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "{\"message\": \"Account Not Found May Be Not Yet Created.\"}")
                             )
                     )
