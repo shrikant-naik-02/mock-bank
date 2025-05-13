@@ -31,9 +31,6 @@ public class AccountController {
 
     private static final Logger log = LoggerFactory.getLogger(AccountController.class);
 
-    @Autowired
-    private AccountService accSer;
-
     @PostMapping
     @Operation(
             summary = "Create Your Account And Save Your Money",
