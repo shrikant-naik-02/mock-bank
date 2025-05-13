@@ -35,7 +35,7 @@ public class AccountController {
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Successful Account Created",
+                            description = "Successful Account Creation",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Account.class)
@@ -43,7 +43,7 @@ public class AccountController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Invalid Amount",
+                            description = "Invalid Username - Username Not present In List Of User",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = MessageFieldResponse.class),
@@ -55,7 +55,7 @@ public class AccountController {
                     ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Invalid Amount",
+                            description = "Invalid Username - User Already Exist",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = MessageFieldResponse.class),
@@ -64,7 +64,7 @@ public class AccountController {
                     )
             }
     )
-    public ResponseEntity<Account> createAccount(@RequestBody Account account) throws JsonProcessingException, JsonProcessingException {
+    public ResponseEntity<Account> createAccount(@RequestBody Account account) throws JsonProcessingException {
         log.info("Received request to / with params: {}", account);
 
         String json = """
@@ -396,7 +396,6 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         log.info("Received request to /{id}} with value: {}", id);
 
-//        String responseMessage = "User " + user.getUsername() + " registered successfully";
         String responseMessage = "Account deleted successfully";
 
         log.info(responseMessage);
