@@ -1,5 +1,6 @@
 package com.excelfore.test.BankTransaction.controller;
 
+import com.excelfore.test.BankTransaction.dto.MessageFieldResponse;
 import com.excelfore.test.BankTransaction.model.Account;
 import com.excelfore.test.BankTransaction.model.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +48,8 @@ public class UserController {
                             description = "Successful Registered",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(type = "string"),
+                                    schema = @Schema(type = "string",description = "Account Created Successfully."),
+//                                    schema = @Schema(implementation = MessageFieldResponse.class),
                                     examples = @ExampleObject(value = "\"Account Created successfully\"")
                             )
                     ),
@@ -56,7 +58,9 @@ public class UserController {
                             description = "Field Is Empty",
                             content = @Content(
                                     mediaType = "application/json",
-                                    examples = @ExampleObject(value = "{\"message\": \"must not be empty\"}")
+                                    schema = @Schema(type = "string",description = "must not be empty."),
+//                                    examples = @ExampleObject(value = "{\"message\": \"must not be empty\"}")
+                                    examples = @ExampleObject(value = "\"must not be empty\"")
                             )
                     ),
                     @ApiResponse(
@@ -64,7 +68,9 @@ public class UserController {
                             description = "Invalid Username",
                             content = @Content(
                                     mediaType = "application/json",
-                                    examples = @ExampleObject(value = "{\"message\": \"Username already taken.\"}")
+                                    schema = @Schema(type = "string",description = "Username Already Taken."),
+//                                    examples = @ExampleObject(value = "{\"message\": \"Username already taken.\"}")
+                                    examples = @ExampleObject(value = "\"Username already taken.\"")
                             )
                     )
             }
